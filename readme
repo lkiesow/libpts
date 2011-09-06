@@ -1,0 +1,47 @@
+ABOUT
+================================================================================
+libpts is a library for handling pointcloud files in the pts file format. This
+format is for example used for the pointclouds created by robots at the
+University of Osnabrück.
+
+
+PTS FILE FORMAT
+================================================================================
+The pts file format is designed to store pointclouds in a simple, human
+readable way. Each point is stored as a couple of values in one line of the pts
+file. One line contains at least three values, representing the x-, y- and
+z-position of the point in a three-dimensional cartesian coordinate system. If
+one line has six or more values, it is assumed that the last three values
+represent color information as 8-bit vales in a rgb color space. Additional
+information may be stored behind the first set of values. This additional data
+can either be a remission value or both quality information for the set color
+and a flag indicating if the color was propper set.
+
+Example of a pts file containing values for position, accuracy, color validity
+and color information:
+
+...
+-101.132004  -16.282200   -1.671650    9672.242188  1   88  69  60
+ -97.345001  -23.159800   -1.601770    9324.614258  1   88  69  60
+ -96.522903    5.354720   -3.460280    9934.269531  0  255   0   0
+ -96.475403    5.382280   -1.612710    9622.832031  1   86  69  63
+ -95.455399    5.657920   -3.712910    9886.268555  1   86  69  63
+...
+
+
+REQUIRED LIBRARIES
+================================================================================
+
+No additional libraries are needed. For compilation a C-compiler like the gcc
+is required.
+
+COMPILATION
+================================================================================
+
+Just go to the project folder and type:
+% make
+
+If you want to build the test application and/or the documentation, type:
+% make test
+and/or
+% make doc
