@@ -127,7 +127,8 @@ uint32_t pts_test_format( FILE * ptsfile ) {
 	switch ( valcount ) {
 		case 3: return PTS_DATA_XYZ;
 		case 4: return PTS_DATA_XYZ | PTS_DATA_REMISSION;
-		case 6: return PTS_DATA_XYZ | PTS_DATA_REMISSION | PTS_DATA_RGB;
+		case 6: return PTS_DATA_XYZ | PTS_DATA_RGB;
+		case 7: return PTS_DATA_XYZ | PTS_DATA_REMISSION | PTS_DATA_RGB;
 		case 8: return PTS_DATA_XYZ | PTS_DATA_QUALITY | PTS_DATA_COLORED | PTS_DATA_RGB;
 	}
 	return PTS_DATA_ERROR;

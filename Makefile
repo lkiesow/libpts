@@ -1,5 +1,5 @@
-INSTPATH=/usr/local/lib64
-INCPATH=/usr/local/include
+INSTPATH=/lib64
+INCPATH=/usr/include
 
 lib: src/pts.c src/pts.h
 	mkdir -p obj/ bin/
@@ -24,9 +24,9 @@ install: lib
 	@cp -f src/pts.h ${INCPATH}
 
 uninstall:
-	@echo Deleting ${INSTPATH}
+	@echo Deleting ${INSTPATH}/libpts.so
 	@rm -f ${INSTPATH}/libpts.so
-	@echo Deleting ${INCPATH}
+	@echo Deleting ${INCPATH}/pts.h
 	@rm -f ${INCPATH}/pts.h
 
 clean:

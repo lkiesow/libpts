@@ -21,7 +21,7 @@ void handle_rgb( uint8_t r, uint8_t g, uint8_t b ) {
 }
 
 void handle_add_data( char * data ) {
-	printf( "add_data: %s", data );
+	printf( "add_data: %s\n", data );
 }
 
 int main( int argc, char ** argv ) {
@@ -34,6 +34,14 @@ int main( int argc, char ** argv ) {
 	FILE * f = pts_open( argv[1] );
 
 	printf( "%u points in file.\n", pts_count_points( f ) );
+
+	uint32_t pts_format = pts_test_format( f );
+	printf( "xyz : %s\n", ( pts_format & PTS_DATA_XYZ       ) ? "yes" : "no" );
+	printf( "rgb : %s\n", ( pts_format & PTS_DATA_RGB       ) ? "yes" : "no" );
+	printf( "rem : %s\n", ( pts_format & PTS_DATA_REMISSION ) ? "yes" : "no" );
+	printf( "qua : %s\n", ( pts_format & PTS_DATA_QUALITY   ) ? "yes" : "no" );
+	printf( "col : %s\n", ( pts_format & PTS_DATA_COLORED   ) ? "yes" : "no" );
+	printf( "\n" );
 
 	pts_set_callback_xyz( &handle_xyz );
 	pts_set_callback_rgb( &handle_rgb );
