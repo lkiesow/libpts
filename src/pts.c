@@ -102,7 +102,7 @@ uint32_t pts_count_points( FILE * ptsfile ) {
 }
 
 
-uint32_t pts_test_fomat( FILE * ptsfile ) {
+uint32_t pts_test_format( FILE * ptsfile ) {
 
 	if ( !ptsfile ) {
 		return PTS_DATA_ERROR;
@@ -149,7 +149,7 @@ pts_info pts_load( FILE * ptsfile ) {
 	}
 
 	/* Determine amount of values per line */
-	info.format = pts_test_fomat( ptsfile );
+	info.format = pts_test_format( ptsfile );
 	/* Reset file position. */
 	fseek( ptsfile, 0, SEEK_SET );
 	/* Start after first line. */
