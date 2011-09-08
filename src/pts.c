@@ -27,6 +27,7 @@ void (*pts_callback_remission)(double)              = NULL;
 void (*pts_callback_quality)(double)                = NULL;
 void (*pts_callback_colored)(int)                   = NULL;
 void (*pts_callback_add_data)(char *)               = NULL;
+void (*pts_callback_eol)(void)                      = NULL;
 
 
 void pts_set_callback_xyz( void (* callback)(double, double, double) ) {
@@ -59,6 +60,11 @@ void pts_set_callback_add_data( void (* callback)(char *) ) {
 }
 
 
+void pts_set_callback_eol( void (* callback)(void) ) {
+	pts_callback_eol = callback;
+}
+
+
 FILE * pts_open( char * filename ) {
 	return fopen( filename, "r" );
 }
@@ -71,11 +77,38 @@ void pts_close( FILE * ptsfile ) {
 }
 
 
+uint32_t pts_count_points( FILE * ptsfile ) {
+
+	if ( !ptsfile ) {
+		return PTS_DATA_ERROR;
+	}
+	/* Start from the beginning */
+	fseek( ptsfile, 0, SEEK_SET );
+
+	/*  Count lines */
+	char line[1024];
+	uint32_t count = 0;
+	while ( !feof( ptsfile ) ) {
+		fgets( line, 1023, ptsfile );
+		count++;
+	}
+
+	fseek( ptsfile, 0, SEEK_SET );
+
+	/* The first line is a comment and the last line is counted twice because we
+	 * use feof. Thus the amount of values is count minus two. */
+	return count - 2;
+
+}
+
+
 uint32_t pts_test_fomat( FILE * ptsfile ) {
 
 	if ( !ptsfile ) {
 		return PTS_DATA_ERROR;
 	}
+	/* Start from the beginning */
+	fseek( ptsfile, 0, SEEK_SET );
 
 	/* Determine amount of values per line */
 	char line[1024];
@@ -162,6 +195,7 @@ pts_info pts_load( FILE * ptsfile ) {
 
 	double b1, b2, b3;
 	char * s;
+	char * nl;
 	while ( !feof( ptsfile ) ) {
 		fgets( line, 1023, ptsfile );
 		s = line;
@@ -176,7 +210,14 @@ pts_info pts_load( FILE * ptsfile ) {
 		/* Check if we do not need additional data. */
 		if ( val_per_line < 4 ) {
 			if ( ( *s != 0 ) && ( *s != '\n' ) && pts_callback_add_data ) {
+				/* Remove newline character. */
+				if ( ( nl = strrchr( s, '\n' ) ) ) {
+					*nl = 0;
+				}
 				pts_callback_add_data( s );
+			}
+			if ( pts_callback_eol ) {
+				pts_callback_eol();
 			}
 			continue;
 		}
@@ -189,7 +230,14 @@ pts_info pts_load( FILE * ptsfile ) {
 			/* Check if we do not need additional data. */
 			if ( val_per_line < 5 ) {
 				if ( ( s != 0 ) && ( *s != '\n' ) && pts_callback_add_data ) {
+					/* Remove newline character. */
+					if ( ( nl = strrchr( s, '\n' ) ) ) {
+						*nl = 0;
+					}
 					pts_callback_add_data( s );
+				}
+				if ( pts_callback_eol ) {
+					pts_callback_eol();
 				}
 				continue;
 			}
@@ -207,7 +255,14 @@ pts_info pts_load( FILE * ptsfile ) {
 			/* Check if we do not need additional data. */
 			if ( val_per_line < 6 ) {
 				if ( ( s != 0 ) && ( *s != '\n' ) && pts_callback_add_data ) {
+					/* Remove newline character. */
+					if ( ( nl = strrchr( s, '\n' ) ) ) {
+						*nl = 0;
+					}
 					pts_callback_add_data( s );
+				}
+				if ( pts_callback_eol ) {
+					pts_callback_eol();
 				}
 				continue;
 			}
@@ -220,8 +275,15 @@ pts_info pts_load( FILE * ptsfile ) {
 				b3 = strtod( s, &s );
 				pts_callback_rgb( (int) b1, (int) b2, (int) b3 );
 			} else if ( pts_callback_add_data ) {
+				/* Remove newline character. */
+				if ( ( nl = strrchr( s, '\n' ) ) ) {
+					*nl = 0;
+				}
 				pts_callback_add_data( s );
 			}
+		}
+		if ( pts_callback_eol ) {
+			pts_callback_eol();
 		}
 	}
 

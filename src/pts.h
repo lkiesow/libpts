@@ -95,6 +95,16 @@ void pts_set_callback_add_data( void (* callback)(char *) );
 
 
 /**
+ * Set callback for end of lines. As all data of one point are in one line in a
+ * pts file, this callback also separates two points.
+ * @brief Set callback for end of line.
+ *
+ * @param  callback  Function to handle line ends.
+ **/
+void pts_set_callback_eol( void (* callback)(void) );
+
+
+/**
  * Open a pts file with given name for reading.
  * @brief Open a pts file for reading.
  *
@@ -111,6 +121,18 @@ FILE * pts_open( char * filename );
  * @param  ptsfile  Filepointer to the opened file.
  **/
 void pts_close( FILE * ptsfile );
+
+
+/**
+ * Count the amount of points in the given pts file. Only use this function if
+ * you really have to, because the whole file has to be read to accomplish this
+ * task.
+ * @brief Count amount of points in pts file.
+ *
+ * @param  ptsfile  Filepointer to the opened file.
+ * @return  Amount of points in pts file.
+ **/
+uint32_t pts_count_points( FILE * ptsfile );
 
 
 /**

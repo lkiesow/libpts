@@ -26,14 +26,24 @@ void handle_add_data( char * data ) {
 
 int main( int argc, char ** argv ) {
 
+	if ( argc < 2 ) {
+		printf( "Usage: %s ptsfile\n", *argv );
+		return EXIT_SUCCESS;
+	}
+
 	FILE * f = pts_open( argv[1] );
+
+	printf( "%u points in file.\n", pts_count_points( f ) );
+
 	pts_set_callback_xyz( &handle_xyz );
 	pts_set_callback_rgb( &handle_rgb );
 	pts_info info = pts_load( f );
+
+	printf( "Second run (with add_data_callback\n" );
 	pts_set_callback_rgb( NULL );
 	pts_set_callback_add_data( &handle_add_data );
-	printf( "Second run (with add_data_callback\n" );
 	info = pts_load( f );
+
 	pts_close( f );
 	return EXIT_SUCCESS;
 
