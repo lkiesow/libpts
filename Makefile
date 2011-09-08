@@ -1,3 +1,6 @@
+INSTPATH=/usr/local/lib64
+INCPATH=/usr/local/include
+
 lib: src/pts.c src/pts.h
 	mkdir -p obj/ bin/
 	gcc -Wall -c -fPIC src/pts.c -o obj/pts.o
@@ -11,6 +14,20 @@ test: lib src/test.c
 doc: Doxyfile src/pts.h
 	mkdir -p doc
 	doxygen Doxyfile
+
+install: lib
+	@echo installing library to ${INSTPATH}
+	@mkdir -p ${INSTPATH}
+	@cp -f bin/libpts.so ${INSTPATH}
+	@chmod 755 ${INSTPATH}/libpts.so
+	@echo installing header to ${INCPATH}
+	@cp -f src/pts.h ${INCPATH}
+
+uninstall:
+	@echo Deleting ${INSTPATH}
+	@rm -f ${INSTPATH}/libpts.so
+	@echo Deleting ${INCPATH}
+	@rm -f ${INCPATH}/pts.h
 
 clean:
 	rm -rf bin/ obj/ doc/
