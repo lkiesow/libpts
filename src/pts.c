@@ -148,10 +148,10 @@ pts_info pts_load( FILE * ptsfile ) {
 		return info;
 	}
 
-	/* Reset file position. */
-	fseek( ptsfile, 0, SEEK_SET );
 	/* Determine amount of values per line */
 	info.format = pts_test_fomat( ptsfile );
+	/* Reset file position. */
+	fseek( ptsfile, 0, SEEK_SET );
 	/* Start after first line. */
 	char line[1024];
 	fgets( line, 1023, ptsfile );
@@ -196,8 +196,11 @@ pts_info pts_load( FILE * ptsfile ) {
 	double b1, b2, b3;
 	char * s;
 	char * nl;
-	while ( !feof( ptsfile ) ) {
+	while ( 1 ) {
 		fgets( line, 1023, ptsfile );
+		if ( feof( ptsfile ) ) {
+			break;
+		}
 		s = line;
 		info.count++;
 
