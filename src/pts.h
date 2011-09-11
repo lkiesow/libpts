@@ -8,9 +8,9 @@
  *            example at the University of Osnabrück. 
  * 
  * @author    Lars Kiesow (lkiesow), lkiesow@uos.de, Universität Osnabrück
- * @version   110905
+ * @version   →→VERSION←←
  * @date      Created: 09/04/2011 08:31:48 PM
- * @date      Modified: 9/05/11 00:02:37
+ * @date      Modified: →→MODIFIED←←
  *
  **/
 #include <stdio.h>

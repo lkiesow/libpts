@@ -20,6 +20,13 @@
 #include "pts.h"
 /* #include <libgen.h> */
 
+#ifdef VERSION
+char __pts_version[128] = VERSION;
+#endif
+#ifdef MODDATE
+char __pts_moddate[128] = MODDATE;
+#endif
+
 
 void (*pts_callback_xyz)(double, double, double)    = NULL;
 void (*pts_callback_rgb)(uint8_t, uint8_t, uint8_t) = NULL;
