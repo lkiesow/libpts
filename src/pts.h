@@ -117,6 +117,22 @@ FILE * pts_open( char * filename );
 
 
 /**
+ * Create a new pts file for writing. Additionally you can pass a comment
+ * string to this function which will be written to the header. This string may
+ * be up to 2^11 characters long and may not contain any new line characters.
+ * Otherwise this method will fail. If you dont want to specify a comment you
+ * can pass NULL as comment. In that case an empty comment will be written to
+ * the pts file. On failure this method will return NULL.
+ * @brief Create new pts for writing.
+ *
+ * @param  filename  Path of the pts file to create.
+ * @param  comment   Comment to add to the pts file.
+ * @return Filepointer to the opened file.
+ **/
+FILE * pts_create( char * filename, char * comment );
+
+
+/**
  * Close opened pts file.
  * @brief Close opened pts file.
  *
@@ -140,7 +156,7 @@ uint32_t pts_count_points( FILE * ptsfile );
  * Read the comment line from a given .pts file. This is always the first line
  * of the file. The read string is stored in the given comment parameter. Thus
  * enough memory should be allocated for the parameter outside of this
- * function. That should be at least the size of 1024 characters.  The C string
+ * function. That should be at least the size of 2^11 characters.  The C string
  * is also returned. If an error occurs the function will return NULL and set
  * comment to an empty string if possible.
  * @brief Get the comment from a pts.

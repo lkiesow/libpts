@@ -69,6 +69,33 @@ FILE * pts_open( char * filename ) {
 }
 
 
+FILE * pts_create( char * filename, char * comment ) {
+
+	if ( comment ) {
+		/* Check if string is not too long. */
+		if ( strlen( comment ) > 2047 ) {
+			return NULL;
+		}
+
+		/* Check if string does not contain any newline characters. */
+		if ( strchr( comment, '\n' ) || strchr( comment, '\n' ) ) {
+			return NULL;
+		}
+	}
+
+	FILE * f = fopen( filename, "w" );
+	/* Check if file cound be opened. Return NULL otherwise. */
+	if ( !f ) {
+		return NULL;
+	}
+	/* Add comment to file or add a blank line if we have none. */
+	fprintf( f, "%s\n", ( comment ? comment : "" ) );
+
+	return f;
+
+}
+
+
 void pts_close( FILE * ptsfile ) {
 	if ( ptsfile ) {
 		fclose( ptsfile );
