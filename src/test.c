@@ -33,6 +33,11 @@ int main( int argc, char ** argv ) {
 
 	FILE * f = pts_open( argv[1] );
 
+	char buf[1024];
+	if ( pts_get_comment( f, buf ) ) {
+		printf( "Comment: %s\n", buf );
+	}
+
 	printf( "%u points in file.\n", pts_count_points( f ) );
 
 	uint32_t pts_format = pts_test_format( f );

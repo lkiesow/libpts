@@ -8,8 +8,9 @@
  *            example at the University of Osnabrück. 
  * 
  * @author    Lars Kiesow (lkiesow), lkiesow@uos.de, Universität Osnabrück
- * @version   110904
+ * @version   111010
  * @date      09/04/2011 12:47:50 PM
+ * @date      2011-10-10 14:09:33
  *
  ******************************************************************************/
 
@@ -18,15 +19,6 @@
 
 #include <stdlib.h>
 #include "pts.h"
-/* #include <libgen.h> */
-
-#ifdef VERSION
-char __pts_version[128] = VERSION;
-#endif
-#ifdef MODDATE
-char __pts_moddate[128] = MODDATE;
-#endif
-
 
 void (*pts_callback_xyz)(double, double, double)    = NULL;
 void (*pts_callback_rgb)(uint8_t, uint8_t, uint8_t) = NULL;
@@ -105,6 +97,26 @@ uint32_t pts_count_points( FILE * ptsfile ) {
 	/* The first line is a comment and the last line is counted twice because we
 	 * use feof. Thus the amount of values is count minus two. */
 	return count - 2;
+
+}
+
+
+char * pts_get_comment( FILE * ptsfile, char * comment ) {
+
+	if ( !ptsfile || !comment ) {
+		comment = "";
+		return NULL;
+	}
+	/* Start from the beginning */
+	fseek( ptsfile, 0, SEEK_SET );
+
+	/* Read first line. */
+	fgets( comment, 1023, ptsfile );
+
+	/* Reset position. */
+	fseek( ptsfile, 0, SEEK_SET );
+
+	return comment;
 
 }
 

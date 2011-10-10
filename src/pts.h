@@ -23,6 +23,8 @@
 #define PTS_DATA_QUALITY    8
 #define PTS_DATA_COLORED   16
 
+#define __pts_version →→VERSION←←
+#define __pts_moddate →→MODIFIED←←
 
 typedef struct {
 	uint32_t format;
@@ -133,6 +135,21 @@ void pts_close( FILE * ptsfile );
  * @return  Amount of points in pts file.
  **/
 uint32_t pts_count_points( FILE * ptsfile );
+
+/**
+ * Read the comment line from a given .pts file. This is always the first line
+ * of the file. The read string is stored in the given comment parameter. Thus
+ * enough memory should be allocated for the parameter outside of this
+ * function. That should be at least the size of 1024 characters.  The C string
+ * is also returned. If an error occurs the function will return NULL and set
+ * comment to an empty string if possible.
+ * @brief Get the comment from a pts.
+ *
+ * @param  ptsfile  Filepointer to the opened file.
+ * @param  comment  C string for comment.
+ * @return  Comment string.
+ **/
+char * pts_get_comment( FILE * ptsfile, char * comment );
 
 
 /**
