@@ -113,7 +113,7 @@ void pts_set_callback_eol( void (* callback)(void) );
  * @param  filename  Path of the pts file.
  * @return  Filepointer to the opened file.
  **/
-FILE * pts_open( char * filename );
+FILE * pts_open( const char * filename );
 
 
 /**
@@ -129,7 +129,7 @@ FILE * pts_open( char * filename );
  * @param  comment   Comment to add to the pts file.
  * @return Filepointer to the opened file.
  **/
-FILE * pts_create( char * filename, char * comment );
+FILE * pts_create( const char * filename, const char * comment );
 
 
 /**

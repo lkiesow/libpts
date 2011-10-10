@@ -64,12 +64,12 @@ void pts_set_callback_eol( void (* callback)(void) ) {
 }
 
 
-FILE * pts_open( char * filename ) {
+FILE * pts_open( const char * filename ) {
 	return fopen( filename, "r" );
 }
 
 
-FILE * pts_create( char * filename, char * comment ) {
+FILE * pts_create( const char * filename, const char * comment ) {
 
 	if ( comment ) {
 		/* Check if string is not too long. */
