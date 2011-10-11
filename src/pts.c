@@ -143,6 +143,16 @@ char * pts_get_comment( FILE * ptsfile, char * comment ) {
 	/* Reset position. */
 	fseek( ptsfile, 0, SEEK_SET );
 
+	/* Remove newline character */
+	char * nl = strchr( comment, '\n' );
+	if ( nl ) {
+		*nl = 0;
+	}
+	nl = strchr( comment, '\r' );
+	if ( nl ) {
+		*nl = 0;
+	}
+
 	return comment;
 
 }
