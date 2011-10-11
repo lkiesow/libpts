@@ -16,18 +16,32 @@
 #include <stdio.h>
 #include <stdint.h>
 
+/// Error determining data
 #define PTS_DATA_ERROR      0
+/// XYZ data flag
 #define PTS_DATA_XYZ        1
+/// RGB data flag
 #define PTS_DATA_RGB        2
+/// REMISSION data flag
 #define PTS_DATA_REMISSION  4
+/// QUALITY data flag
 #define PTS_DATA_QUALITY    8
+/// COLORED data flag
 #define PTS_DATA_COLORED   16
 
+/// Version of libpts (git revision number)
 #define __pts_version →→VERSION←←
+/// Date of last modification (Taken from git)
 #define __pts_moddate →→MODIFIED←←
 
+/**
+ * @struct pts_info
+ * @brief  Container for information about read pts file
+ **/
 typedef struct {
+	/// Format of read pts file. Contains pts data flags.
 	uint32_t format;
+	/// Amount of read points.
 	uint32_t count;
 } pts_info;
 
